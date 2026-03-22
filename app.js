@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const limitCountDisplay = document.getElementById('limit-count');
 
     // Application API Settings and State
-    const API_KEY = "AIzaSyBisqzlB9k2g_L3v4S60UU7K95Or6kwYBE";
+    const API_KEY = ENV.GEMINI_API_KEY;
     const MAX_FREE_USES = 5;
     
     let generatedPlanText = "";
