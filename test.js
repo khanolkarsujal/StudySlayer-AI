@@ -1,10 +1,15 @@
 import fs from 'node:fs';
 const envFile = fs.readFileSync('./.env', 'utf8');
 const API_KEY = envFile.match(/GEMINI_API_KEY=(.*)/)[1].trim();
-fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-        contents: [{ parts: [{text: "Testing PDF"}, {inlineData: {mimeType: "application/pdf", data: "JVBERi0xLgo="}}] }]
+fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.models) {
+            console.log("Your API key supports the following models:");
+            data.models.forEach(m => console.log("- " + m.name));
+        } else {
+            console.log("Error or no models found:");
+            console.log(data);
+        }
     })
-}).then(res => res.json()).then(console.log).catch(console.error);
+    .catch(console.error);
