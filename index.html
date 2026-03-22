@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySlayer AI - Smart Study Plans</title>
+    
+    <!-- Modern minimalist typography (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to our clean, scoped CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Subtle startup-style background glow -->
+    <div class="bg-glow"></div>
+    
+    <div class="container">
+        <!-- 1. HEADER -->
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#6366f1" />
+                            <stop offset="100%" stop-color="#a855f7" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h1>StudySlayer AI</h1>
+            </div>
+            <p class="tagline">Turn Any Syllabus Into a Smart Study Plan</p>
+        </header>
+
+        <main>
+            <!-- 2. MAIN SECTION (Input) -->
+            <section class="input-section card">
+                <label for="syllabus">Enter your syllabus text, or upload a PDF!</label>
+                <textarea id="syllabus" placeholder="Example: Introduction to Psychology, Chapter 1-3, Topics include neuron structure, classical conditioning...&#10;&#10;Paste your course syllabus, topics, or learning goals here."></textarea>
+                
+                <div class="upload-container">
+                    <input type="file" id="pdf-upload" accept="application/pdf" style="display: none;">
+                    <button type="button" id="upload-trigger-btn" class="secondary-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                        </svg>
+                        <span>Attach PDF Syllabus</span>
+                    </button>
+                    <span id="file-name-display" class="file-name">No file chosen</span>
+                </div>
+
+                <!-- Rate Limit Indicator -->
+                <div class="limit-indicator">
+                    <span class="limit-text">Free API Generations left: <strong id="limit-count">5</strong></span>
+                </div>
+
+                <button id="generate-btn" class="primary-btn">
+                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                    </svg>
+                    <span class="btn-text">Generate Plan</span>
+                    <!-- Loading spinner (hidden by default) -->
+                    <span class="loader"></span>
+                </button>
+            </section>
+
+            <!-- 3. OUTPUT SECTION (Hidden initially) -->
+            <section id="output-section" class="output-section card">
+                <div class="output-header">
+                    <h2>Your Study Plan</h2>
+                    
+                    <!-- 5. EXTRA FEATURES (Actions) -->
+                    <div class="output-actions">
+                        <button id="copy-btn" class="secondary-btn" title="Copy to clipboard">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        </button>
+                        <button id="download-btn" class="secondary-btn" title="Download as Text">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Download</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="output-content" class="output-content">
+                    <!-- Dynamic plan format will be injected here via JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Link to our application logic -->
+    <script src="app.js"></script>
+</body>
+</html>
