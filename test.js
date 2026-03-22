@@ -1,6 +1,6 @@
 import fs from 'node:fs';
-
-const API_KEY = process.env.GEMINI_API_KEY;
+const envFile = fs.readFileSync('./.env', 'utf8');
+const API_KEY = envFile.match(/GEMINI_API_KEY=(.*)/)[1].trim();
 fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`)
     .then(res => res.json())
     .then(data => {

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Application API Settings and State
 
-    const API_KEY = process.env.GEMINI_API_KEY;
+    const API_KEY = ENV.GEMINI_API_KEY;
     const MAX_FREE_USES = 5;
 
     let generatedPlanText = "";
