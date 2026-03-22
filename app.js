@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const limitCountDisplay = document.getElementById('limit-count');
 
     // Application API Settings and State
-    const API_KEY = ENV.GEMINI_API_KEY;
+
+    const API_KEY = process.env.GEMINI_API_KEY;
     const MAX_FREE_USES = 5;
-    
+
     let generatedPlanText = "";
     let pdfFileBase64 = null;
     let pdfMimeType = "";
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             fileNameDisplay.textContent = file.name;
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = function (event) {
                 // Extract base64 part of the data URL
                 const dataUrl = event.target.result;
                 const base64Data = dataUrl.split(',')[1];
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Generate Plan Handler
     generateBtn.addEventListener('click', async () => {
         const text = syllabusInput.value.trim();
-        
+
         if (!text && !pdfFileBase64) {
             alert("Please enter a syllabus or upload a PDF first!");
             syllabusInput.focus();
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
-            
+
             const parts = [
                 { text: "You are an expert study planner. Parse the following syllabus material and generate a structured study plan. Break it down day by day. Provide topics, study notes, and a quick quiz for each day." }
             ];
@@ -131,13 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Render UI
             renderPlanUI(plan);
-            
+
             // Format for TXT Export and Clipboard
             generatedPlanText = formatForText(plan);
 
             // Display Output smoothly
             outputSection.classList.add('visible');
-            
+
             // Scroll to the result
             setTimeout(() => {
                 outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function renderPlanUI(planArray) {
         outputContent.innerHTML = ''; // Clear previous content
-        
+
         planArray.forEach(item => {
             const dayDiv = document.createElement('div');
             // Using templates for a clean structured look
@@ -224,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Prevents XSS when rendering raw text safely into HTML
      */
     function escapeHTML(str) {
-        return str.replace(/[&<>'"]/g, 
+        return str.replace(/[&<>'"]/g,
             tag => ({
                 '&': '&amp;',
                 '<': '&lt;',
@@ -238,17 +239,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. EXTRA FEATURES - Copy to Clipboard
     copyBtn.addEventListener('click', async () => {
         if (!generatedPlanText) return;
-        
+
         try {
             await navigator.clipboard.writeText(generatedPlanText);
-            
+
             // Visual feedback
             const span = copyBtn.querySelector('span');
             const originalText = span.textContent;
             span.textContent = "Copied!";
             copyBtn.style.color = "#10b981"; // success color
             copyBtn.style.borderColor = "#10b981";
-            
+
             setTimeout(() => {
                 span.textContent = originalText;
                 copyBtn.style.color = "";
@@ -267,16 +268,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create blob with text content
         const blob = new Blob([generatedPlanText], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
-        
+
         // Create an invisible anchor element to trigger download
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
         a.download = 'StudySlayer_Plan.txt';
-        
+
         document.body.appendChild(a);
         a.click();
-        
+
         // Cleanup
         setTimeout(() => {
             document.body.removeChild(a);
